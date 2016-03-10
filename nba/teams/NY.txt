@@ -1,0 +1,69 @@
+Total: 26W38L Home: 16W18L Away: 10W20L
+Points scored per match: 98.97
+Points lost per match: 101.52
+OT matches: 4, Number of OTs: 5
+
+MIL	Away	W	122-97
+ATL	Home	L	112-101
+WSH	Away	W	117-110
+SA	Home	L	94-84
+CLE	Away	L	96-86
+MIL	Home	L	99-92
+LAL	Home	W	99-95
+TOR	Away	W	111-109
+CHA	Away	L	95-93
+CLE	Home	L	90-84
+NO	Home	W	95-87
+CHA	Home	W	102-94
+OKC	Away	W	93-90
+HOU	Away	W	107-102
+MIA	Away	L	95-78
+ORL	Away	L	100-91
+MIA	Home	L	97-78
+HOU	Home	L	116-111 OT
+PHI	Home	W	99-87
+BKN	Home	W	108-91
+MIL	Away	L	106-91
+DAL	Home	L	104-97
+UTAH	Away	L	106-85
+SAC	Away	L	99-97
+POR	Away	W	112-110
+MIN	Home	W	107-102
+PHI	Away	W	107-97
+CHI	Home	W	107-91
+ORL	Home	L	107-99
+CLE	Away	L	91-84
+ATL	Away	L	117-98
+BOS	Away	L	100-91
+DET	Home	W	108-96
+CHI	Away	L	108-81
+ATL	Home	W	111-97
+ATL	Away	W	107-101
+MIA	Away	W	98-90
+SA	Away	L	100-99
+MIL	Home	W	100-88
+BOS	Home	W	120-114
+BKN	Away	L	110-104
+MEM	Away	L	103-95
+PHI	Home	W	119-113 2OT
+UTAH	Home	W	118-111 OT
+LAC	Home	L	116-88
+CHA	Away	L	97-84
+OKC	Home	L	128-122 OT
+TOR	Away	L	103-93
+PHX	Home	W	102-84
+GS	Home	L	116-95
+BOS	Home	L	97-89
+DET	Away	L	111-105
+MEM	Home	L	91-85
+DEN	Home	L	101-96
+WSH	Home	L	111-108
+BKN	Away	L	109-98
+MIN	Away	W	103-95
+TOR	Home	L	122-95
+IND	Away	L	108-105
+ORL	Home	W	108-95
+MIA	Home	L	98-81
+POR	Home	L	104-85
+BOS	Away	L	105-104
+DET	Home	W	102-89

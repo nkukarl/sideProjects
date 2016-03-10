@@ -1,0 +1,8 @@
+"Daily Weather Observations for Sydney, New South Wales for May 2015"
+"Prepared at 13:01 GMT on Tuesday  9 February 2016   IDCJDW2124.201505"
+"Copyright 2003 Commonwealth Bureau of Meteorology"
+"Most observations from Observatory Hill, but some from Fort Denison and Sydney Airport."
+"Sydney Airport is about 10 km to the south of Observatory Hill."
+"Temperature, humidity, pressure and rainfall observations are from Sydney (Observatory Hill) {station 066062}"
+"Cloud, evaporation and sunshine observations are from Sydney Airport AMO {station 066037}"
+"Wind observations are from Fort Denison {station 066022}"
