@@ -17,15 +17,23 @@ def query(trackingID):
 	LEFT = soup.find_all('td', {'class': 'Col_Left'})
 	RIGHT = soup.find_all('td', {'class': 'Col_Right'})
 
-	if LEFT and RIGHT:
-		status = LEFT[-1].find('span').string.encode('utf8')
-		lastUpdate = RIGHT[-1].find('span').string.encode('utf8')
-		print trackingID, status, lastUpdate
-	else:
-		print trackingID, 'NOT FOUND'
+	print trackingID,
+	# if LEFT and RIGHT:
+	# 	if LEFT[-1].find('span').string:
+	# 		status = LEFT[-1].find('span').string.encode('utf8')
+	# 		print status,
+	# 	if RIGHT[-1].find('span').string:
+	# 		lastUpdate = RIGHT[-1].find('span').string.encode('utf8')
+	# 	print lastUpdate
+	# else:
+	# 	print 'NOT FOUND'
+
+	print soup.find('span', {'id': 'ctl00_ContentPlaceHolder1_lbTTLCurrentStatus'}).text.encode('utf8')
 
 # trackingIDs = [770001634144, 770001634143, 660003228335, 660003228567, 660003228297, 660003228507]
-trackingIDs = [770001634290, 770001634292]
+trackingIDs = [770001634290, 770001634292, 770001634407, 770001634409, 770001634410, 770001634411]
+
+trackingIDs = [770001634410]
 
 # for trackingID in trackingIDs:
 # 	query(trackingID)
