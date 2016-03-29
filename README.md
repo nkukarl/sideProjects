@@ -18,3 +18,9 @@ Acquiring Express Mail Service information and consignment status using multi-th
 
 ##sydneyWeather
 Acquiring Sydney weather and sunrise/sunset information from Bureau of Meteorology and Geoscience Australia websites
+
+##24game
+Explore the possibilities of using 4 integers (between 1 to 13) to get 24 using only +, -, *, / and ()
+
+##sudokuOCRSolver
+Read in images as sudoku questions, generate sudoku board using OCR and save solved sudoku as images
