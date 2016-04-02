@@ -22,7 +22,7 @@ images = glob.glob('./Questions/*.png')
 # sort file names
 images.sort()
 
-for image in images: # solve each question
+for image in images[:1]: # solve each question
 	
 	# obtain output file
 	output = imageProcessing.generateOutput(image)
