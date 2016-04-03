@@ -1,5 +1,5 @@
-"Daily Weather Observations for Sydney, New South Wales for May 2015"
-"Prepared at 13:01 GMT on Tuesday  9 February 2016   IDCJDW2124.201505"
+"Daily Weather Observations for Sydney, New South Wales for March 2016"
+"Prepared at 13:01 GMT on Saturday  2 April 2016   IDCJDW2124.201603"
 "Copyright 2003 Commonwealth Bureau of Meteorology"
 "Most observations from Observatory Hill, but some from Fort Denison and Sydney Airport."
 "Sydney Airport is about 10 km to the south of Observatory Hill."
