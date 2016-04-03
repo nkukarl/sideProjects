@@ -51,7 +51,7 @@ counter = 0
 for card in cards:
 	a, b, c, d = card
 	if game([a, b, c, d]) != set():
-		print(a, b, c, d, 'Yes')
+		print a, b, c, d, 'Yes'
 		counter += 1
 	else:
 		print a, b, c, d, 'No'
