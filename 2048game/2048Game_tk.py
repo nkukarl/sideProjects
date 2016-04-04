@@ -5,7 +5,14 @@ from tabulate import tabulate
 
 # create number colour dictionary
 # rgb code from http://www.w3schools.com/colors/colors_picker.asp
-colours = {0: '#ffe6e6', 2: '#ffcccc', 4: '#ffb3b3', 8: '#ff9999', 16: '#ff8080', 32: '#ff6666', 64: '#ff4d4d', 128: '#ff3333', 256: '#ff1a1a', 512: '#ff0000', 1024: '#e60000', 2048: '#cc0000', 4096: '#b30000'}
+
+# red
+# colours = {0: '#ffe6e6', 2: '#ffcccc', 4: '#ffb3b3', 8: '#ff9999', 16: '#ff8080', 32: '#ff6666', 64: '#ff4d4d', 128: '#ff3333', 256: '#ff1a1a', 512: '#ff0000', 1024: '#e60000', 2048: '#cc0000', 4096: '#b30000'}
+
+# blue
+colours = {0: '#ffe6e6', 2: '#ff4000', 4: '#ff8000', 8: '#ffbf00', 16: '#ffff00', 32: '#80ff00', 64: '#40ff00', 128: '#00ff00', 256: '#00ff40', 512: '#00ff80', 1024: '#00ffbf', 2048: '#00ffff', 4096: '#00bfff'}
+
+
 
 class Game(Frame):
 	def __init__(self):
@@ -23,6 +30,7 @@ class Game(Frame):
 
 		self.isOver = False
 		self.init()
+		self.moves = 0
 
 		self.canvas = Canvas(self, width = 620, height = 620)
 		self.canvas.pack()
@@ -63,7 +71,7 @@ class Game(Frame):
 	def thumbnailDraw(self):
 
 		self.canvas.create_rectangle(10, 10, 610, 610, fill = 'grey')
-		self.canvas.create_text(310, 450, text = 'Game over!', fill = 'red', font = ('Serif', 50, 'bold'))
+		self.canvas.create_text(310, 420, text = 'Game over!', fill = 'red', font = ('Serif', 50, 'bold'))
 
 		# draw horizontal lines
 		self.canvas.create_line(150, 50, 470, 50)
@@ -89,7 +97,7 @@ class Game(Frame):
 				if self.matrix[i][j] != 0:
 					self.canvas.create_text(x, y, text = str(num), font = ('Serif', 40 - len(str(num)) * 5, 'bold'))
 
-		self.canvas.create_text(310, 550, text = '\n'.join(self.summary), font = ('Serif', 24, 'bold'))
+		self.canvas.create_text(310, 520, text = '\n'.join(self.summary), font = ('Serif', 24, 'bold'))
 
 	def init(self):
 		self.matrix = [[0] * 4 for _ in range(4)]
@@ -190,6 +198,7 @@ class Game(Frame):
 				dirn = self.dirnMap[key]
 				flag = self.move(dirn)
 				if flag:
+					self.moves += 1
 					self.insert()
 				self.canvasDraw()
 			else:
@@ -207,9 +216,10 @@ class Game(Frame):
 
 				self.summary = []
 
-				self.summary.append('Game started at: ' + tStart)
-				self.summary.append('Game ended at: ' + tEnd)
-				self.summary.append('Game lasted: ' + str(tDiff) + ' second(s)')
+				self.summary.append('Game started at:\t' + tStart)
+				self.summary.append('Game ended at:\t' + tEnd)
+				self.summary.append('Game lasted:\t' + str(tDiff) + ' second(s)')
+				self.summary.append('Total move(s):\t' + str(self.moves))
 
 				f.write('\n'.join(self.summary))
 				f.write('\n')
@@ -221,3 +231,8 @@ class Game(Frame):
 
 if __name__ == '__main__':
 	game = Game()
+
+
+# sound from http://soundbible.com/tags-mac.html
+# successful merge: http://soundbible.com/1672-Button-Press.html
+# move not effective: http://soundbible.com/1540-Computer-Error-Alert.html
