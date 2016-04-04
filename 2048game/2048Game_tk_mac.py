@@ -24,10 +24,15 @@ class Game(Frame):
 		# add title
 		self.master.title('2048')
 		# key bind to allow arrow key input
-		self.master.bind('<Up>', self.callback_up)
-		self.master.bind('<Down>', self.callback_down)
-		self.master.bind('<Left>', self.callback_left)
-		self.master.bind('<Right>', self.callback_right)
+		self.master.bind('<KeyPress>', self.getInput)
+
+		# dirnMap: key to direction
+		self.dirnMap = {
+		"u'\uf700'": 'up',
+		"u'\uf701'": 'down',
+		"u'\uf702'": 'left',
+		"u'\uf703'": 'right'
+		}
 
 		# game state
 		self.isOver = False
@@ -82,7 +87,7 @@ class Game(Frame):
 				self.canvas.create_rectangle(10 + 150 * j, 10 + 150 * i, 160 + 150 * j, 160 + 150 * i, fill = colours[num])
 				# if matrix[i][j] is zero, do not show matrix[i][j] on canvas (leave rectangle empty)
 				if self.matrix[i][j] != 0:
-					self.canvas.create_text(x, y, text = str(num), font = ('Serif', 60 - len(str(num)) * 5, 'bold')) # reduce font size when the number of digits increases
+					self.canvas.create_text(x, y, text = str(num), font = ('Serif', 80 - len(str(num)) * 5, 'bold')) # reduce font size when the number of digits increases
 
 	def thumbnailDraw(self):
 		'''
@@ -257,26 +262,18 @@ class Game(Frame):
 					return False
 		return True
 
-	def callback_up(self, event):
-		self.getInput('up')
-
-	def callback_down(self, event):
-		self.getInput('down')
-
-	def callback_left(self, event):
-		self.getInput('left')
-
-	def callback_right(self, event):
-		self.getInput('right')
-
-	def getInput(self, dirn):
+	def getInput(self, event):
 		'''
 		get user input (arrow keys) and update game state
 		'''
 		# only allow input before game is over
 		if not self.isOver:
+			# input is denoted as key
+			key = repr(event.char)
 			# check whether game is over
 			if not self.gameOver():
+				# get dirn from dirnMap
+				dirn = self.dirnMap[key]
 				# move grids using dirn and determine whether move is in effect
 				flag = self.move(dirn)
 				# use flag to decide whether to insert a new random number at a random location
