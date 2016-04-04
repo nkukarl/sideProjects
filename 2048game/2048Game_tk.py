@@ -303,7 +303,7 @@ class Game(Frame):
 
 				# create a .txt file to store summary information
 				# use game end time as file name to avoid potential clash
-				filename = self.tEnd.strftime('%Y-%d-%m %H-%M-%S') + '.txt'
+				filename = self.tEnd.strftime('%Y-%m-%d %H-%M-%S') + '.txt'
 
 				f = open(filename, 'w+')
 
