@@ -1,7 +1,7 @@
 from Tkinter import *
 import random # randomly generate numbers
-from datetime import datetime # update 
-from tabulate import tabulate
+from datetime import datetime # to record start and end time
+from tabulate import tabulate # to print matrix in grids and save to a .txt file
 
 # create number colour dictionary
 # rgb code from http://www.w3schools.com/colors/colors_picker.asp
@@ -298,6 +298,7 @@ class Game(Frame):
 				tDiff = self.tDiff.seconds
 
 				# create a .txt file to store summary information
+				# use game end time as file name to avoid potential clash
 				filename = self.tEnd.strftime('%Y-%d-%m %H-%M-%S') + '.txt'
 
 				f = open(filename, 'w+')
