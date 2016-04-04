@@ -24,3 +24,6 @@ Explore the possibilities of using 4 integers (between 1 to 13) to get 24 using 
 
 ##sudokuOCRSolver
 Read in images as sudoku questions, generate sudoku board using OCR and save solved sudoku as images
+
+##2048game
+self-explanatory, cmd version and version with GUI are available
