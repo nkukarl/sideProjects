@@ -257,21 +257,22 @@ class Game(Frame):
 					return False
 		return True
 
+	# 4 callback functions for four arrow keys
 	def callback_up(self, event):
-		self.getInput('up')
+		self.getDirn('up')
 
 	def callback_down(self, event):
-		self.getInput('down')
+		self.getDirn('down')
 
 	def callback_left(self, event):
-		self.getInput('left')
+		self.getDirn('left')
 
 	def callback_right(self, event):
-		self.getInput('right')
+		self.getDirn('right')
 
-	def getInput(self, dirn):
+	def getDirn(self, dirn):
 		'''
-		get user input (arrow keys) and update game state
+		get direction and update game state
 		'''
 		# only allow input before game is over
 		if not self.isOver:
