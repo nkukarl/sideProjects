@@ -77,7 +77,7 @@ def insert(matrix, flag):
 		# matrix[i][j] = random.choice([2, 4])
 		matrix[i][j] = 2
 
-def getChar(prompt = 'Press any key...\n'):
+def getChar(prompt = 'Continue to play\n'):
 	
 	fd = sys.stdin.fileno()
 	old = termios.tcgetattr(fd)
@@ -120,24 +120,23 @@ def output(matrix):
 
 def main():
 	matrix = init()
-	steps = 0
+	moves = 0
 	while True:
 		output(matrix)
 		time.sleep(0.01)
 		if gameOver(matrix):
-			print steps
+			print moves, 'moves'
 			print 'Game over!'
 			break
-		steps += 1
+		moves += 1
 
 		dirnMap = {'\x1b[A': 'up', '\x1b[B': 'down', '\x1b[C': 'right', '\x1b[D': 'left'}
-		# ch = getChar()
-		ch = random.choice(dirnMap.keys())
+		ch = getChar()
+		# ch = random.choice(dirnMap.keys())
 		dirn = dirnMap[ch]
 		print dirn
 		flag = move(matrix, dirn)
 		insert(matrix, flag)
-
 
 if __name__ == '__main__':
 	main()
