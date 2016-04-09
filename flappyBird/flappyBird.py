@@ -8,7 +8,7 @@ fpsClock = pygame.time.Clock()
 WIDTH = 288
 HEIGHT = 512
 DISPLAYSURF = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
-pygame.display.set_caption('Animation')
+pygame.display.set_caption('Flappy Bird')
 
 WHITE = (255, 255, 255)
 birdWidth = 34
@@ -64,14 +64,14 @@ while True:
 
 	
 	# pipe location looping
-	if pipex1 - 2 < -52:
+	if pipex1 - 2 < -pipeWIDTH:
 		# pipex1 = (pipex1 - 2) % WIDTH
 		pipex1 = WIDTH
 		pipey1 = random.randint(-200, -100)
 	else:
 		pipex1 = pipex1 - 2
 
-	if pipex2 - 2 < -52:
+	if pipex2 - 2 < -pipeWIDTH:
 		# pipex2 = (pipex2 - 2) % WIDTH
 		pipex2 = WIDTH
 		pipey2 = random.randint(-200, -100)
