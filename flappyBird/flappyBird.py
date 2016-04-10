@@ -1,7 +1,8 @@
 import pygame, sys, random
 from pygame.locals import *
 
-pygame.mixer.pre_init(frequency = 22050, size = -16, channels = 2, buffer = 512)
+# sound delay on ubuntu
+# pygame.mixer.pre_init(frequency = 22050, size = -16, channels = 2, buffer = 512)
 pygame.init()
 
 # <function>
@@ -32,22 +33,38 @@ def checkCollide(birdMask, birdx, birdy, pipeMask, pipex, pipey):
 
 def scoreDisp(score):
 	scoreStr = str(score)
-	numx = 20
-	numy = 20
-	numWidth = 24
+	numx = 10
+	numy = 40
 	for num in scoreStr:
 		DISPLAYSURF.blit(numImgs[int(num)], (numx, numy))
-		numx += numWidth
+		if num == '1':
+			numx += 16
+		else:
+			numx += 24
+
+def starDisp(starCount):
+	starx = 10
+	stary = 10
+	for _ in range(starCount):
+		DISPLAYSURF.blit(starImg, (starx, stary))
+		starx += 24
 
 def paraInit():
-	global birdy, velocity, wingOrder, pipex1, pipey1, pipex2, pipey2, pipex1Passed, pipex2Passed, gameOver, score, collide
+	global birdy, velocity, wingOrder, pipeGapDecr, starCount, pipe1Gap, pipex1, pipey1, pipe2Gap, pipex2, pipey2, pipex1Passed, pipex2Passed, gameOver, score, collide
 	birdy = 10
 	velocity = 0
 	wingOrder = 0
+
+	DIFFICULTY = random.choice(pipeGapDecrMap.keys())
+	pipeGapDecr = pipeGapDecrMap[DIFFICULTY][0]
+	starCount = pipeGapDecrMap[DIFFICULTY][1]
+
+	pipe1Gap = pipeGAP
 	pipex1 = 300
-	pipey1 = random.randint(-225, -125)
+	pipey1 = random.randint(-(pipe1Gap / 2 + 180), -100)
+	pipe2Gap = pipeGAP
 	pipex2 = 470
-	pipey2 = random.randint(-225, -125)
+	pipey2 = random.randint(-(pipe2Gap / 2 + 180), -100)
 	pipex1Passed = 0
 	pipex2Passed = 0
 	gameOver = 0
@@ -68,7 +85,8 @@ birdWIDTH = 34
 birdHEIGHT = 24
 GRAVITY = 0.25
 
-pipeGAP = 150
+pipeGAP = 140
+pipeGapDecrMap = {'EASY': (0, 1), 'MEDIUM': (4, 2), 'HARD': (8, 3), 'INSANE': (16, 4)}
 pipeWIDTH = 52
 pipeHEIGHT = 320
 
@@ -78,6 +96,10 @@ basey = HEIGHT - baseHEIGHT
 # </parameter>
 
 # <image>
+
+starImgRaw = pygame.image.load('sprites/star.png').convert_alpha()
+starImg = pygame.transform.scale(starImgRaw, (24, 24))
+
 birdImgs = [pygame.image.load('sprites/bird_down.png').convert_alpha(), pygame.image.load('sprites/bird_mid.png').convert_alpha(), pygame.image.load('sprites/bird_up.png').convert_alpha()]
 
 bgImg = pygame.image.load('sprites/bg.png').convert_alpha()
@@ -113,14 +135,17 @@ while True:
 	DISPLAYSURF.blit(birdImg, (birdx, birdy))
 	
 	DISPLAYSURF.blit(pipe_upImg, (pipex1, pipey1))
-	DISPLAYSURF.blit(pipe_downImg, (pipex1, pipey1 + pipeHEIGHT + pipeGAP))
+	DISPLAYSURF.blit(pipe_downImg, (pipex1, pipey1 + pipeHEIGHT + pipe1Gap))
 
 	DISPLAYSURF.blit(pipe_upImg, (pipex2, pipey2))
-	DISPLAYSURF.blit(pipe_downImg, (pipex2, pipey2 + pipeHEIGHT + pipeGAP))
+	DISPLAYSURF.blit(pipe_downImg, (pipex2, pipey2 + pipeHEIGHT + pipe2Gap))
 
 	DISPLAYSURF.blit(baseImg, (basex, basey))
 
-	collide = checkCollide(birdMask, birdx, birdy, pipe_upMask, pipex1, pipey1) or checkCollide(birdMask, birdx, birdy, pipe_downMask, pipex1, pipey1 + pipeHEIGHT + pipeGAP) or checkCollide(birdMask, birdx, birdy, pipe_upMask, pipex2, pipey2) or checkCollide(birdMask, birdx, birdy, pipe_downMask, pipex2, pipey2 + pipeHEIGHT + pipeGAP) or birdy <= 0 or birdy >= HEIGHT - baseHEIGHT - birdHEIGHT
+	starDisp(starCount)
+	
+
+	collide = checkCollide(birdMask, birdx, birdy, pipe_upMask, pipex1, pipey1) or checkCollide(birdMask, birdx, birdy, pipe_downMask, pipex1, pipey1 + pipeHEIGHT + pipe1Gap) or checkCollide(birdMask, birdx, birdy, pipe_upMask, pipex2, pipey2) or checkCollide(birdMask, birdx, birdy, pipe_downMask, pipex2, pipey2 + pipeHEIGHT + pipe2Gap) or birdy <= 0 or birdy >= HEIGHT - baseHEIGHT - birdHEIGHT
 
 	if collide:
 		if gameOver == 0:
@@ -145,26 +170,28 @@ while True:
 		# pipe location looping
 		if pipex1 - 2 < -pipeWIDTH:
 			pipex1 = WIDTH
-			pipey1 = random.randint(-225, -125)
+			pipey1 = random.randint(-(pipe1Gap / 2 + 180), -100)
+			pipe1Gap -= pipeGapDecr
 			pipex1Passed = 0
 		else:
 			pipex1 = pipex1 - 2
 			if pipex1 + pipeWIDTH < birdx:
 				pipex1Passed += 1
 			if pipex1Passed == 1:
-				score += 1
+				score += 15 - int(pipe1Gap / 10)
 				pointSound.play()
 
 		if pipex2 - 2 < -pipeWIDTH:
 			pipex2 = WIDTH
-			pipey2 = random.randint(-225, -125)
+			pipey2 = random.randint(-(pipe2Gap / 2 + 180), -100)
+			pipe2Gap -= pipeGapDecr
 			pipex2Passed = 0
 		else:
 			pipex2 = pipex2 - 2
 			if pipex2 + pipeWIDTH < birdx:
 				pipex2Passed += 1
 			if pipex2Passed == 1:
-				score += 1
+				score += 15 - int(pipe2Gap / 10)
 				pointSound.play()
 
 		# base location looping
