@@ -36,11 +36,11 @@ def scoreDisp(score):
 	numx = 10
 	numy = 40
 	for num in scoreStr:
-		DISPLAYSURF.blit(numImgs[int(num)], (numx, numy))
+		DISPLAYSURF.blit(digitImgs[int(num)], (numx, numy))
 		if num == '1':
-			numx += 16
+			numx += 25
 		else:
-			numx += 24
+			numx += 28
 
 def starDisp(starCount):
 	starx = 10
@@ -71,6 +71,7 @@ def paraInit():
 	score = 0
 	collided = False
 	paused = 0
+
 # </function>
 
 # <parameter>
@@ -87,6 +88,8 @@ birdHEIGHT = 24
 GRAVITY = 0.25
 
 pipeGAP = 140
+
+# pipeGapDecrMap: each entry --> difficulty: (pipeGapDecrStep, starCount)
 pipeGapDecrMap = {'EASY': (0, 1), 'MEDIUM': (4, 2), 'HARD': (8, 3), 'INSANE': (16, 4)}
 pipeWIDTH = 52
 pipeHEIGHT = 320
@@ -94,12 +97,14 @@ pipeHEIGHT = 320
 baseHEIGHT = 112
 basex = 0
 basey = HEIGHT - baseHEIGHT
+
+pauseWIDTH = 64
+pauseHEIGHT = 64
 # </parameter>
 
 # <image>
 
-starImgRaw = pygame.image.load('sprites/star.png').convert_alpha()
-starImg = pygame.transform.scale(starImgRaw, (24, 24))
+starImg = pygame.image.load('sprites/star.png').convert_alpha()
 
 birdImgs = [pygame.image.load('sprites/bird_down.png').convert_alpha(), pygame.image.load('sprites/bird_mid.png').convert_alpha(), pygame.image.load('sprites/bird_up.png').convert_alpha()]
 
@@ -113,14 +118,26 @@ pipe_downMask = getMask(pipe_downImg)
 
 baseImg = pygame.image.load('sprites/base.png').convert_alpha()
 
-numImgs = [pygame.image.load('sprites/' + str(i) + '.png').convert_alpha() for i in range(10)]
+digitImgs = [pygame.image.load('sprites/' + str(i) + '.png').convert_alpha() for i in range(10)]
+pauseImg = pygame.image.load('sprites/pause.png').convert_alpha()
+
+# message generation using http://fontmeme.com/pixel-fonts/
+
+continueMsgImg = pygame.image.load('sprites/continueMsg.png').convert_alpha()
+restartMsgImg = pygame.image.load('sprites/restartMsg.png').convert_alpha()
+pauseMsgImg = pygame.image.load('sprites/pauseMsg.png').convert_alpha()
+upMsgImg = pygame.image.load('sprites/upMsg.png').convert_alpha()
+
+overMsgImg = pygame.image.load('sprites/overMsg.png').convert_alpha()
+
 # </image>
 
 # <audio>
-hitSound = pygame.mixer.Sound('audio/hit.wav')
-dieSound = pygame.mixer.Sound('audio/die.wav')
-wingSound = pygame.mixer.Sound('audio/wing.wav')
+startSound = pygame.mixer.Sound('audio/start.wav')
+collideSound = pygame.mixer.Sound('audio/collide.wav')
+flySound = pygame.mixer.Sound('audio/fly.wav')
 pointSound = pygame.mixer.Sound('audio/point.wav')
+pauseSound = pygame.mixer.Sound('audio/pause.wav')
 # </audio>
 
 # <initialisation>
@@ -149,8 +166,12 @@ while True:
 	collided = checkCollide(birdMask, birdx, birdy, pipe_upMask, pipex1, pipey1) or checkCollide(birdMask, birdx, birdy, pipe_downMask, pipex1, pipey1 + pipeHEIGHT + pipe1Gap) or checkCollide(birdMask, birdx, birdy, pipe_upMask, pipex2, pipey2) or checkCollide(birdMask, birdx, birdy, pipe_downMask, pipex2, pipey2 + pipeHEIGHT + pipe2Gap) or birdy <= 0 or birdy >= HEIGHT - baseHEIGHT - birdHEIGHT
 
 	if collided:
+
+		DISPLAYSURF.blit(restartMsgImg, (0, 440))
+		DISPLAYSURF.blit(overMsgImg, (18, 200))
+
 		if gameOver == 0:
-			hitSound.play()
+			collideSound.play()
 			gameOver = 1
 
 		for event in pygame.event.get():
@@ -158,12 +179,19 @@ while True:
 				pygame.quit()
 				sys.exit()
 			elif event.type == KEYDOWN:
-				if event.key == K_SPACE or event.key == K_UP:
+				if event.key == K_UP:
 					paraInit()
 					
 	else:
 		
 		if not paused:
+			'''
+			pause
+			play
+			'''
+			DISPLAYSURF.blit(upMsgImg, (0, 440))
+			DISPLAYSURF.blit(pauseMsgImg, (0, 465))
+			
 
 			wingOrder = (wingOrder + 1) % 3
 
@@ -207,16 +235,25 @@ while True:
 					pygame.quit()
 					sys.exit()
 				elif event.type == KEYDOWN:
-					if event.key == K_SPACE or event.key == K_UP:
+					if event.key == K_UP:
 						velocity = -3
-						wingSound.play()
+						flySound.play()
 					if event.key == K_ESCAPE:
 						paused = 1
+						pauseSound.play()
 
 		else:
+			DISPLAYSURF.blit(pauseImg, ((WIDTH - pauseWIDTH) / 2, (HEIGHT - pauseHEIGHT) / 2))
+			DISPLAYSURF.blit(continueMsgImg, (0, 440))
 			for event in pygame.event.get():
-				if event.type == KEYDOWN and event.key == K_ESCAPE:
+				if event.type == QUIT:
+					pygame.quit()
+					sys.exit()
+				elif event.type == KEYDOWN and event.key == K_UP:
 					paused = 0
+					
+
+
 
 	scoreDisp(score)
 	pygame.display.update()
