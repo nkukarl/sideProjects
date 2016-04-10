@@ -122,22 +122,23 @@ digitImgs = [pygame.image.load('sprites/' + str(i) + '.png').convert_alpha() for
 pauseImg = pygame.image.load('sprites/pause.png').convert_alpha()
 
 # message generation using http://fontmeme.com/pixel-fonts/
-
 continueMsgImg = pygame.image.load('sprites/continueMsg.png').convert_alpha()
 restartMsgImg = pygame.image.load('sprites/restartMsg.png').convert_alpha()
 pauseMsgImg = pygame.image.load('sprites/pauseMsg.png').convert_alpha()
 upMsgImg = pygame.image.load('sprites/upMsg.png').convert_alpha()
-
 overMsgImg = pygame.image.load('sprites/overMsg.png').convert_alpha()
 
 # </image>
 
 # <audio>
+
+# sound effect files from http://themushroomkingdom.net/media/smb/wav
 startSound = pygame.mixer.Sound('audio/start.wav')
 collideSound = pygame.mixer.Sound('audio/collide.wav')
 flySound = pygame.mixer.Sound('audio/fly.wav')
 pointSound = pygame.mixer.Sound('audio/point.wav')
 pauseSound = pygame.mixer.Sound('audio/pause.wav')
+
 # </audio>
 
 # <initialisation>
@@ -252,8 +253,6 @@ while True:
 				elif event.type == KEYDOWN and event.key == K_UP:
 					paused = 0
 					
-
-
 
 	scoreDisp(score)
 	pygame.display.update()
