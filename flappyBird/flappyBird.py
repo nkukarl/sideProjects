@@ -50,8 +50,8 @@ def starDisp(starCount):
 		starx += 24
 
 def paraInit():
-	global birdy, velocity, wingOrder, pipeGapDecr, starCount, pipe1Gap, pipex1, pipey1, pipe2Gap, pipex2, pipey2, pipex1Passed, pipex2Passed, gameOver, score, collide
-	birdy = 10
+	global birdy, velocity, wingOrder, pipeGapDecr, starCount, pipe1Gap, pipex1, pipey1, pipe2Gap, pipex2, pipey2, pipex1Passed, pipex2Passed, gameOver, score, collided, paused
+	birdy = 40
 	velocity = 0
 	wingOrder = 0
 
@@ -69,7 +69,8 @@ def paraInit():
 	pipex2Passed = 0
 	gameOver = 0
 	score = 0
-	collide = False
+	collided = False
+	paused = 0
 # </function>
 
 # <parameter>
@@ -80,7 +81,7 @@ HEIGHT = 512
 DISPLAYSURF = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 pygame.display.set_caption('Flappy Bird')
 
-birdx = 50
+birdx = 40
 birdWIDTH = 34
 birdHEIGHT = 24
 GRAVITY = 0.25
@@ -145,9 +146,9 @@ while True:
 	starDisp(starCount)
 	
 
-	collide = checkCollide(birdMask, birdx, birdy, pipe_upMask, pipex1, pipey1) or checkCollide(birdMask, birdx, birdy, pipe_downMask, pipex1, pipey1 + pipeHEIGHT + pipe1Gap) or checkCollide(birdMask, birdx, birdy, pipe_upMask, pipex2, pipey2) or checkCollide(birdMask, birdx, birdy, pipe_downMask, pipex2, pipey2 + pipeHEIGHT + pipe2Gap) or birdy <= 0 or birdy >= HEIGHT - baseHEIGHT - birdHEIGHT
+	collided = checkCollide(birdMask, birdx, birdy, pipe_upMask, pipex1, pipey1) or checkCollide(birdMask, birdx, birdy, pipe_downMask, pipex1, pipey1 + pipeHEIGHT + pipe1Gap) or checkCollide(birdMask, birdx, birdy, pipe_upMask, pipex2, pipey2) or checkCollide(birdMask, birdx, birdy, pipe_downMask, pipex2, pipey2 + pipeHEIGHT + pipe2Gap) or birdy <= 0 or birdy >= HEIGHT - baseHEIGHT - birdHEIGHT
 
-	if collide:
+	if collided:
 		if gameOver == 0:
 			hitSound.play()
 			gameOver = 1
@@ -162,51 +163,60 @@ while True:
 					
 	else:
 		
-		wingOrder = (wingOrder + 1) % 3
+		if not paused:
 
-		velocity += GRAVITY
-		birdy += velocity
+			wingOrder = (wingOrder + 1) % 3
 
-		# pipe location looping
-		if pipex1 - 2 < -pipeWIDTH:
-			pipex1 = WIDTH
-			pipey1 = random.randint(-(pipe1Gap / 2 + 180), -100)
-			pipe1Gap -= pipeGapDecr
-			pipex1Passed = 0
+			velocity += GRAVITY
+			birdy += velocity
+
+			# pipe location looping
+			if pipex1 - 2 < -pipeWIDTH:
+				pipex1 = WIDTH
+				pipey1 = random.randint(-(pipe1Gap / 2 + 180), -100)
+				pipe1Gap -= pipeGapDecr
+				pipex1Passed = 0
+			else:
+				pipex1 = pipex1 - 2
+				if pipex1 + pipeWIDTH < birdx:
+					pipex1Passed += 1
+				if pipex1Passed == 1:
+					score += 15 - int(pipe1Gap / 10)
+					pointSound.play()
+
+			if pipex2 - 2 < -pipeWIDTH:
+				pipex2 = WIDTH
+				pipey2 = random.randint(-(pipe2Gap / 2 + 180), -100)
+				pipe2Gap -= pipeGapDecr
+				pipex2Passed = 0
+			else:
+				pipex2 = pipex2 - 2
+				if pipex2 + pipeWIDTH < birdx:
+					pipex2Passed += 1
+				if pipex2Passed == 1:
+					score += 15 - int(pipe2Gap / 10)
+					pointSound.play()
+
+			# base location looping
+			basex -= 2
+			if basex < -20:
+				basex = 0
+
+			for event in pygame.event.get():
+				if event.type == QUIT:
+					pygame.quit()
+					sys.exit()
+				elif event.type == KEYDOWN:
+					if event.key == K_SPACE or event.key == K_UP:
+						velocity = -3
+						wingSound.play()
+					if event.key == K_ESCAPE:
+						paused = 1
+
 		else:
-			pipex1 = pipex1 - 2
-			if pipex1 + pipeWIDTH < birdx:
-				pipex1Passed += 1
-			if pipex1Passed == 1:
-				score += 15 - int(pipe1Gap / 10)
-				pointSound.play()
-
-		if pipex2 - 2 < -pipeWIDTH:
-			pipex2 = WIDTH
-			pipey2 = random.randint(-(pipe2Gap / 2 + 180), -100)
-			pipe2Gap -= pipeGapDecr
-			pipex2Passed = 0
-		else:
-			pipex2 = pipex2 - 2
-			if pipex2 + pipeWIDTH < birdx:
-				pipex2Passed += 1
-			if pipex2Passed == 1:
-				score += 15 - int(pipe2Gap / 10)
-				pointSound.play()
-
-		# base location looping
-		basex -= 2
-		if basex < -20:
-			basex = 0
-
-		for event in pygame.event.get():
-			if event.type == QUIT:
-				pygame.quit()
-				sys.exit()
-			elif event.type == KEYDOWN:
-				if event.key == K_SPACE or event.key == K_UP:
-					velocity = -5
-					wingSound.play()
+			for event in pygame.event.get():
+				if event.type == KEYDOWN and event.key == K_ESCAPE:
+					paused = 0
 
 	scoreDisp(score)
 	pygame.display.update()
