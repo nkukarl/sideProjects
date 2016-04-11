@@ -86,12 +86,14 @@ def paraInit():
 	'''
 	parameter initialisation, used when game starts and restarts
 	'''
-	global birdy, velocity, wingOrder, pipeGapDecr, starCount, pipe1Gap, pipex1, pipey1, pipe2Gap, pipex2, pipey2, pipex1Passed, pipex2Passed, gameOver, score, collided, paused
+	global birdy, velocity, wingOrder, bgOrder, pipeGapDecr, starCount, pipe1Gap, pipex1, pipey1, pipe2Gap, pipex2, pipey2, pipex1Passed, pipex2Passed, gameOver, score, collided, paused
 
 	# birdy, velocity and wingOrder (determines which bird image to use)
 	birdy = 40
 	velocity = 0 # initialised to 0 and updated by gravity
 	wingOrder = 0 # initialised to 0 and updated in while loop
+
+	bgOrder = random.randint(0, 1)
 
 	# determine game difficulty: easy, medium, hard, insane as well as different pipe gap decrement steps and star counts
 	DIFFICULTY = random.choice(pipeGapDecrMap.keys())
@@ -162,7 +164,7 @@ pausey = (HEIGHT - pauseHEIGHT) / 2
 # <image>
 
 # background and base
-bgImg = pygame.image.load('sprites/bg.png').convert_alpha()
+bgImgs = [pygame.image.load('sprites/bg_city.png').convert_alpha(), pygame.image.load('sprites/bg_scene.png').convert_alpha()]
 baseImg = pygame.image.load('sprites/base.png').convert_alpha()
 
 # bird: down, mid, up wing
@@ -210,9 +212,8 @@ paraInit()
 
 while True:
 
-	# add background and base
-	DISPLAYSURF.blit(bgImg, (0, 0))
-	DISPLAYSURF.blit(baseImg, (basex, basey))
+	# add background
+	DISPLAYSURF.blit(bgImgs[bgOrder], (0, 0))
 
 	# get birdImg and birdMask
 	birdImg = birdImgs[wingOrder]
@@ -229,6 +230,9 @@ while True:
 
 	DISPLAYSURF.blit(pipe_upImg, (pipex2, pipey2))
 	DISPLAYSURF.blit(pipe_downImg, (pipex2, pipey2 + pipeHEIGHT + pipe2Gap))
+
+	# add base
+	DISPLAYSURF.blit(baseImg, (basex, basey))
 	
 	# add star to indicate difficulty
 	starDisp(starCount)
