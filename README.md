@@ -13,9 +13,6 @@ Acquiring real time scores of NBA games and summarise performance of each team f
 Acquiring real time stock prices or stock prices with 20 minutes delay for different stock markets
 (API provided by Google finance, Yahoo finance and Bloomberg)
 
-##express
-Acquiring Express Mail Service information and consignment status using multi-thread
-
 ##sydneyWeather
 Acquiring Sydney weather and sunrise/sunset information from Bureau of Meteorology and Geoscience Australia websites
 
@@ -29,8 +26,4 @@ Read in images as sudoku questions, generate sudoku board using OCR and save sol
 self-explanatory, cmd version and version with GUI are available
 
 ##flappyBird
-<<<<<<< HEAD
 flappy bird game with random game difficulty
-=======
-flappy bird game with random game difficulty
->>>>>>> d0642d24828b8cd0a1783490bc7130ded76d8450
