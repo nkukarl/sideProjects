@@ -27,3 +27,6 @@ Read in images as sudoku questions, generate sudoku board using OCR and save sol
 
 ##2048game
 self-explanatory, cmd version and version with GUI are available
+
+##flappyBird
+flappy bird game with random game difficulty
