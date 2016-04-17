@@ -29,4 +29,8 @@ Read in images as sudoku questions, generate sudoku board using OCR and save sol
 self-explanatory, cmd version and version with GUI are available
 
 ##flappyBird
+<<<<<<< HEAD
 flappy bird game with random game difficulty
+=======
+flappy bird game with random game difficulty
+>>>>>>> d0642d24828b8cd0a1783490bc7130ded76d8450
