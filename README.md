@@ -1,7 +1,4 @@
-# sideProjects
-
 This repository contain a number of projects when I am learning and practising python programming languages.
-They are mainly looking at web requests to get certain information to save them locally or print to the console:
 
 Projects include:
 
